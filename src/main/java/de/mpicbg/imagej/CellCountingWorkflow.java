@@ -69,7 +69,7 @@ public class CellCountingWorkflow<T extends RealType<T>> implements Command {
         ClearCLBuffer otsuThresholdedOnGPU = clij.create(input);
 
         // blur on GPU
-        clij.op().blurFast(input, gaussBlurredOnGPU, 2f,2f, 0f);
+        clij.op().blur(input, gaussBlurredOnGPU, 2f,2f, 0f);
 
         // threshold on GPU
         clij.op().automaticThreshold(gaussBlurredOnGPU, otsuThresholdedOnGPU, "Otsu");
