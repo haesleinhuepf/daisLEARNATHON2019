@@ -24,9 +24,11 @@ import net.imglib2.roi.Regions;
 import net.imglib2.roi.labeling.ImgLabeling;
 import net.imglib2.roi.labeling.LabelRegion;
 import net.imglib2.roi.labeling.LabelRegions;
+import net.imglib2.roi.mask.integer.RandomAccessibleAsMask;
 import net.imglib2.type.logic.BitType;
 import net.imglib2.type.numeric.IntegerType;
 import net.imglib2.type.numeric.RealType;
+import net.imglib2.view.Views;
 import org.scijava.command.Command;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
@@ -36,6 +38,7 @@ import org.scijava.table.Table;
 import org.scijava.ui.UIService;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,19 +73,22 @@ public class CellCountingWorkflow<T extends RealType<T>> implements Command {
 
         clij.show(gpuThresholded, "thresholded");
 
+
+        IterableInterval thresholded = Views.iterable(clij.pullBinaryRAI(gpuThresholded));
+
         gpuInput.close();
         gpuBlurred.close();
         gpuThresholded.close();
 
-        if (true) return;
+        //if (true) return;
 
-        RandomAccessibleInterval blurred = ij.op().filter().gauss(image, 3, 3);
+        //RandomAccessibleInterval blurred = ij.op().filter().gauss(image, 3, 3);
 
-        ij.ui().show(blurred);
+        //ij.ui().show(blurred);
 
-        IterableInterval ii = (IterableInterval)blurred;
+        //IterableInterval ii = (IterableInterval)blurred;
 
-        IterableInterval thresholded = ij.op().threshold().otsu(ii);
+        //IterableInterval thresholded = ij.op().threshold().otsu(ii);
 
         ij.ui().show(thresholded);
 
@@ -103,7 +109,6 @@ public class CellCountingWorkflow<T extends RealType<T>> implements Command {
         DoubleColumn intensityColumn = new DoubleColumn();
 
         for(LabelRegion region : regions) {
-
             IterableInterval sample = Regions.sample(region, image);
 
             RealType meanIntensity = ij.op().stats().mean(sample);
@@ -113,7 +118,6 @@ public class CellCountingWorkflow<T extends RealType<T>> implements Command {
 
             areaColumn.add(area);
             intensityColumn.add(mean);
-
         }
 
         Table table = new DefaultGenericTable();
@@ -121,6 +125,7 @@ public class CellCountingWorkflow<T extends RealType<T>> implements Command {
         table.add(intensityColumn);
 
         ij.ui().show(table);
+
 
         System.out.println("Hello world!");
     }
