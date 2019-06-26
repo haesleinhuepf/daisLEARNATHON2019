@@ -76,7 +76,7 @@
 
 	<properties>
 		<package-name>de.mpicbg</package-name>
-		<main-class>de.mpicbg.imagej.CellCountingWorkflow</main-class>
+		<main-class>de.mpicbg.imagej.TiledView</main-class>
 		<license.licenseName>bsd_3</license.licenseName>
 		<license.copyrightOwners>Robert Haase</license.copyrightOwners>
 		<imagej.app.directory>C:/programs/fiji-win64/Fiji.app/</imagej.app.directory>
@@ -86,6 +86,10 @@
 		<repository>
 			<id>imagej.public</id>
 			<url>http://maven.imagej.net/content/groups/public</url>
+		</repository>
+		<repository>
+			<id>clij</id>
+			<url>http://dl.bintray.com/haesleinhuepf/clij</url>
 		</repository>
 	</repositories>
 
@@ -97,6 +101,11 @@
 		<dependency>
 			<groupId>net.imagej</groupId>
 			<artifactId>imagej-legacy</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.haesleinhuepf</groupId>
+			<artifactId>clij_</artifactId>
+			<version>1.0.4</version>
 		</dependency>
 	</dependencies>
 </project>
